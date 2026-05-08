@@ -1,0 +1,13 @@
+package com.proyectoperfumeria.ms_analisis_experiencia;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MsAnalisisExperienciaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MsAnalisisExperienciaApplication.class, args);
+	}
+
+}
