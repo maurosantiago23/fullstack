@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioService {
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public UsuarioResponseDTO maptoDTO(Usuario usuario){
         return new UsuarioResponseDTO(usuario.getId(),
