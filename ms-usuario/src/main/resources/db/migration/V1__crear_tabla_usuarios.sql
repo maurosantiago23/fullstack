@@ -4,4 +4,4 @@ CREATE TABLE usuarios (
                           email VARCHAR(100) NOT NULL UNIQUE,
                           password VARCHAR(100) NOT NULL,
                           rol VARCHAR(50) NOT NULL
-);
+); --Listo

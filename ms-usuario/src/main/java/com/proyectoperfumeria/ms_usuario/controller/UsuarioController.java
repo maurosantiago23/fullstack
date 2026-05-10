@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController {
 
-    private final UsuarioService usuarioService;
+    private final UsuarioService usuarioService; //Agregado el final
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> listar(){
