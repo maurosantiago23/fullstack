@@ -1,16 +1,16 @@
 package com.proyectoperfumeria.ms_tienda_oferta.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class OfertaResponseDTO {
+@AllArgsConstructor
+public class TiendaResponseDTO {
 
     private Long id;
-    private Long perfumeId;
-    private Long tiendaId;
-    private Integer precioOferta;
+    private String nombre;
+    private String ubicacion;
 }

@@ -1,4 +1,11 @@
 package com.proyectoperfumeria.ms_tienda_oferta.repository;
 
-public interface TiendaRepository {
+
+import com.proyectoperfumeria.ms_tienda_oferta.model.Tienda;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TiendaRepository extends JpaRepository<Tienda, Long> {
+
 }

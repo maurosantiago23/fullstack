@@ -6,22 +6,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Table(name = "tiendas")
+@Table(name = "ofertas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Tienda {
+public class Oferta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String nombreTienda;
+    @Column(name = "perfume_id", nullable = false)
+    private Long perfumeId;
 
-    @Column(nullable = false, length = 150)
-    private String ubicacion;
+    @Column(name = "tienda_id", nullable = false)
+    private Long tiendaId;
 
+    @Column(name = "precio_oferta", nullable = false)
+    private Integer precioOferta;
 }
