@@ -41,4 +41,9 @@ public class TiendaController {
     public ResponseEntity<VentaResponseDTO> registrarVenta(@RequestBody @Valid VentaRequestDTO ventaRequestDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tiendaService.registrarVentaPerfume(ventaRequestDTO));
     }
+
+    @GetMapping("/ventas")
+    public ResponseEntity<List<VentaResponseDTO>> listarVentas() {
+        return ResponseEntity.ok(tiendaService.obtenerVentasPerfume());
+    }
 }

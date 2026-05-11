@@ -92,4 +92,13 @@ public class TiendaService {
         return mapToVentaDTO(ventaGuardada);
     }
 
+    public List<VentaResponseDTO> obtenerVentasPerfume() {
+        List<Venta> ventas = ventaRepository.findAll();
+        List<VentaResponseDTO> ventaResponseDTOS = new ArrayList<>();
+        for (Venta venta : ventas) {
+            ventaResponseDTOS.add(mapToVentaDTO(venta));
+            }
+        return ventaResponseDTOS;
+    }
+
 }
