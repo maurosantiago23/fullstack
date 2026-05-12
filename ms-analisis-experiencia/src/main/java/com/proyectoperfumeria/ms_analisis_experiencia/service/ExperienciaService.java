@@ -46,8 +46,8 @@ public class ExperienciaService {
         List<Resena> resenas = resenaRepository.findAll();
         List<ResenaResponseDTO> dtos = new ArrayList<>();
 
-        for (Resena r : resenas) {
-            dtos.add(mapToResenaDTO(r));
+        for (Resena resena : resenas) {
+            dtos.add(mapToResenaDTO(resena));
         }
 
         return dtos;
