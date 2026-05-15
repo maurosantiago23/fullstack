@@ -1,6 +1,8 @@
 package com.proyectoperfumeria.ms_analisis_experiencia.service;
 
 
+import com.proyectoperfumeria.ms_analisis_experiencia.client.CatalogoFeignClient;
+import com.proyectoperfumeria.ms_analisis_experiencia.client.UsuarioFeignClient;
 import com.proyectoperfumeria.ms_analisis_experiencia.dto.ResenaRequestDTO;
 import com.proyectoperfumeria.ms_analisis_experiencia.dto.ResenaResponseDTO;
 import com.proyectoperfumeria.ms_analisis_experiencia.model.Resena;
@@ -18,6 +20,8 @@ public class ExperienciaService {
 
     private final ResenaRepository resenaRepository;
 
+    private final UsuarioFeignClient usuarioFeignClient;
+    private final CatalogoFeignClient catalogoFeignClient;
 
     private ResenaResponseDTO mapToResenaDTO(Resena resena) {
         return new ResenaResponseDTO(
@@ -31,6 +35,10 @@ public class ExperienciaService {
     }
 
     public ResenaResponseDTO crearResenaDePerfume(ResenaRequestDTO resenaRequestDTO) {
+
+        usuarioFeignClient.validarUsuario(resenaRequestDTO.getUsuarioId());
+        catalogoFeignClient.validarPerfume(resenaRequestDTO.getPerfumeId());
+
         Resena resena = new Resena();
         resena.setUsuarioId(resenaRequestDTO.getUsuarioId());
         resena.setPerfumeId(resenaRequestDTO.getPerfumeId());
@@ -45,11 +53,9 @@ public class ExperienciaService {
     public List<ResenaResponseDTO> obtenerResenas() {
         List<Resena> resenas = resenaRepository.findAll();
         List<ResenaResponseDTO> dtos = new ArrayList<>();
-
         for (Resena resena : resenas) {
             dtos.add(mapToResenaDTO(resena));
         }
-
         return dtos;
     }
 

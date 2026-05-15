@@ -1,6 +1,8 @@
 package com.proyectoperfumeria.ms_tienda_oferta.service;
 
 
+import com.proyectoperfumeria.ms_tienda_oferta.client.CatalogoFeignClient;
+import com.proyectoperfumeria.ms_tienda_oferta.client.UsuarioFeignClient;
 import com.proyectoperfumeria.ms_tienda_oferta.dto.*;
 import com.proyectoperfumeria.ms_tienda_oferta.model.Oferta;
 import com.proyectoperfumeria.ms_tienda_oferta.model.Tienda;
@@ -22,6 +24,8 @@ public class TiendaService {
     private final VentaRepository ventaRepository;
     private final OfertaRepository ofertaRepository;
     private final TiendaRepository tiendaRepository;
+    private final UsuarioFeignClient usuarioFeignClient;
+    private final CatalogoFeignClient catalogoFeignClient;
 
     public TiendaResponseDTO mapToTiendaDTO(Tienda tienda) {
            return new TiendaResponseDTO(tienda.getId(), tienda.getNombreTienda(), tienda.getUbicacion());
@@ -49,9 +53,10 @@ public class TiendaService {
                 oferta.getPerfumeId(),
                 oferta.getTiendaId(),
                 oferta.getPrecioOferta());
-        }
+    }
 
     public OfertaResponseDTO crearOferta (OfertaRequestDTO ofertaRequestDTO) {
+
         Oferta oferta = new Oferta();
         oferta.setPerfumeId(ofertaRequestDTO.getPerfumeId());
         oferta.setTiendaId(ofertaRequestDTO.getTiendaId());
@@ -81,6 +86,10 @@ public class TiendaService {
     }
 
     public VentaResponseDTO registrarVentaPerfume(VentaRequestDTO ventaRequestDTO) {
+        usuarioFeignClient.obtenerUsuarioPorId(ventaRequestDTO.getUsuarioId());
+        catalogoFeignClient.obtenerPerfumePorId(ventaRequestDTO.getPerfumeId());
+        catalogoFeignClient.descontarStock(ventaRequestDTO.getPerfumeId(), 1);
+
         Venta venta = new Venta();
         venta.setUsuarioId(ventaRequestDTO.getUsuarioId());
         venta.setPerfumeId(ventaRequestDTO.getPerfumeId());
@@ -88,6 +97,7 @@ public class TiendaService {
         venta.setMetodoPago(ventaRequestDTO.getMetodoPago());
         venta.setFechaVenta(LocalDateTime.now());
         venta.setEstadoPago("PAGO APROBADO!");
+
         Venta ventaGuardada = ventaRepository.save(venta);
         return mapToVentaDTO(ventaGuardada);
     }
@@ -97,7 +107,7 @@ public class TiendaService {
         List<VentaResponseDTO> ventaResponseDTOS = new ArrayList<>();
         for (Venta venta : ventas) {
             ventaResponseDTOS.add(mapToVentaDTO(venta));
-            }
+        }
         return ventaResponseDTOS;
     }
 
