@@ -14,7 +14,7 @@ CREATE TABLE ofertas (
     precio_oferta INT,
     stock_disponible INT DEFAULT 0,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_tienda FOREIGN KEY (id_tienda) REFERENCES tiendas(id)
+    CONSTRAINT fk_tienda FOREIGN KEY (tienda_id) REFERENCES tiendas(id)
 );
 
 CREATE TABLE ventas (
