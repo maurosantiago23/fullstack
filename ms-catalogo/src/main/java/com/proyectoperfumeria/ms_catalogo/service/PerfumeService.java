@@ -1,6 +1,7 @@
 package com.proyectoperfumeria.ms_catalogo.service;
 
 
+import com.proyectoperfumeria.ms_catalogo.dto.PerfumeRequestDTO;
 import com.proyectoperfumeria.ms_catalogo.dto.PerfumeResponseDTO;
 import com.proyectoperfumeria.ms_catalogo.model.Perfume;
 import com.proyectoperfumeria.ms_catalogo.repository.PerfumeRepository;
@@ -39,13 +40,13 @@ public class PerfumeService {
         return perfumeRepository.findById(id).map(this::maptoDTO);
     }
 
-    public PerfumeResponseDTO guardarPerfume(PerfumeResponseDTO perfumeResponseDTO){
+    public PerfumeResponseDTO guardarPerfume(PerfumeRequestDTO requestDTO){
         Perfume perfume = new Perfume();
-        perfume.setNombre(perfumeResponseDTO.getNombre());
-        perfume.setMarca(perfumeResponseDTO.getMarca());
-        perfume.setPrecio(perfumeResponseDTO.getPrecio());
-        perfume.setDescripcion(perfumeResponseDTO.getDescripcion());
-        perfume.setStock(perfumeResponseDTO.getStock());
+        perfume.setNombre(requestDTO.getNombre());
+        perfume.setMarca(requestDTO.getMarca());
+        perfume.setPrecio(requestDTO.getPrecio());
+        perfume.setDescripcion(requestDTO.getDescripcion());
+        perfume.setStock(requestDTO.getStock());
 
         Perfume perfumeGuardado = perfumeRepository.save(perfume);
         return maptoDTO(perfumeGuardado);

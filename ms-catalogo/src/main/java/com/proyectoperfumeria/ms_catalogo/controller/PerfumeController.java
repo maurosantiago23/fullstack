@@ -30,8 +30,8 @@ public class PerfumeController {
     }
 
     @PostMapping
-    public ResponseEntity<PerfumeResponseDTO> crearPerfume(@RequestBody @Valid PerfumeResponseDTO perfumeResponseDTO){
-        PerfumeResponseDTO nuevo = perfumeService.guardarPerfume(perfumeResponseDTO);
+    public ResponseEntity<PerfumeResponseDTO> crearPerfume(@RequestBody @Valid PerfumeRequestDTO requestDTO){
+        PerfumeResponseDTO nuevo = perfumeService.guardarPerfume(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 }
