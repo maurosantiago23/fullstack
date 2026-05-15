@@ -86,8 +86,8 @@ public class TiendaService {
     }
 
     public VentaResponseDTO registrarVentaPerfume(VentaRequestDTO ventaRequestDTO) {
-        usuarioFeignClient.obtenerUsuarioPorId(ventaRequestDTO.getUsuarioId());
-        catalogoFeignClient.obtenerPerfumePorId(ventaRequestDTO.getPerfumeId());
+        usuarioFeignClient.validarUsuario(ventaRequestDTO.getUsuarioId());
+        catalogoFeignClient.validarPerfume(ventaRequestDTO.getPerfumeId());
         catalogoFeignClient.descontarStock(ventaRequestDTO.getPerfumeId(), 1);
 
         Venta venta = new Venta();
