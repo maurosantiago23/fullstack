@@ -1,16 +1,14 @@
 CREATE TABLE tiendas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre_tienda VARCHAR(100) NOT NULL,
-    direccion VARCHAR(255) NOT NULL,
-    comuna VARCHAR(100),
-    telefono VARCHAR(20)
+    ubicacion VARCHAR(255) NOT NULL,
 );
 
 CREATE TABLE ofertas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     perfume_id BIGINT NOT NULL,
     tienda_id BIGINT NOT NULL,
-    precio_normal INT NOT NULL,
+    precio_normal INT NOT NULL 0,
     precio_oferta INT,
     stock_disponible INT DEFAULT 0,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
