@@ -8,7 +8,7 @@ CREATE TABLE ofertas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     perfume_id BIGINT NOT NULL,
     tienda_id BIGINT NOT NULL,
-    precio_normal INT NOT NULL 0,
+    precio_normal INT DEFAULT 0,
     precio_oferta INT,
     stock_disponible INT DEFAULT 0,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
