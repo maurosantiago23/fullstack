@@ -8,8 +8,8 @@ CREATE TABLE tiendas (
 
 CREATE TABLE ofertas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    id_producto BIGINT NOT NULL,
-    id_tienda BIGINT NOT NULL,
+    perfume_id BIGINT NOT NULL,
+    tienda_id BIGINT NOT NULL,
     precio_normal INT NOT NULL,
     precio_oferta INT,
     stock_disponible INT DEFAULT 0,
@@ -19,8 +19,8 @@ CREATE TABLE ofertas (
 
 CREATE TABLE ventas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario BIGINT NOT NULL,
-    id_perfume BIGINT NOT NULL,
+    usuario_id BIGINT NOT NULL,
+    perfume_id BIGINT NOT NULL,
     fecha_venta DATETIME(6),
     total INT NOT NULL,
     metodo_pago VARCHAR(50),
