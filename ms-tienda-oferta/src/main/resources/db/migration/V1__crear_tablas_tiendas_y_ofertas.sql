@@ -1,7 +1,7 @@
 CREATE TABLE tiendas (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre_tienda VARCHAR(100) NOT NULL,
-    ubicacion VARCHAR(255) NOT NULL,
+    ubicacion VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE ofertas (
