@@ -34,4 +34,12 @@ public class PerfumeController {
         PerfumeResponseDTO nuevo = perfumeService.guardarPerfume(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
+
+    @PutMapping("/{id}/stock/{cantidad}")
+    public ResponseEntity<Void> descontarStock(
+            @PathVariable Long id,
+            @PathVariable Integer cantidad) {
+        perfumeService.descontarStock(id, cantidad);
+        return ResponseEntity.ok().build();
+    }
 }

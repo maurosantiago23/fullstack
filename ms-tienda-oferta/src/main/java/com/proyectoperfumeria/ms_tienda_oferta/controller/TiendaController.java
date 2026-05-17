@@ -46,4 +46,6 @@ public class TiendaController {
     public ResponseEntity<List<VentaResponseDTO>> listarVentas() {
         return ResponseEntity.ok(tiendaService.obtenerVentasPerfume());
     }
+
+
 }

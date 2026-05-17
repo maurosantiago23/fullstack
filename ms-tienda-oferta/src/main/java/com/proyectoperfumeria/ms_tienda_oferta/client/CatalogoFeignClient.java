@@ -13,6 +13,6 @@ public interface CatalogoFeignClient {
     Object validarPerfume(@PathVariable("id") Long id);
 
 
-   // @PutMapping("/api/v1/perfumes/{id}/stock/{cantidad}")
-   // void descontarStock(@PathVariable("id") Long id, @PathVariable("cantidad") Integer cantidad);
+    @PutMapping("/api/v1/perfumes/{id}/stock/{cantidad}")
+    void descontarStock(@PathVariable("id") Long id, @PathVariable("cantidad") Integer cantidad);
 }

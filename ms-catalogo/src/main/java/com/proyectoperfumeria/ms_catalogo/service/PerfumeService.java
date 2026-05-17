@@ -5,6 +5,7 @@ import com.proyectoperfumeria.ms_catalogo.dto.PerfumeRequestDTO;
 import com.proyectoperfumeria.ms_catalogo.dto.PerfumeResponseDTO;
 import com.proyectoperfumeria.ms_catalogo.model.Perfume;
 import com.proyectoperfumeria.ms_catalogo.repository.PerfumeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PerfumeService {
 
     private final PerfumeRepository perfumeRepository;
@@ -50,6 +52,18 @@ public class PerfumeService {
 
         Perfume perfumeGuardado = perfumeRepository.save(perfume);
         return maptoDTO(perfumeGuardado);
+    }
+
+    public void descontarStock(Long perfumeId, Integer cantidad) {
+        Perfume perfume = perfumeRepository.findById(perfumeId)
+                .orElseThrow(() -> new RuntimeException("Error: El perfume no existe."));
+
+        if (perfume.getStock() < cantidad) {
+            throw new RuntimeException("Error: Stock insuficiente para " + perfume.getNombre());
+        }
+
+        perfume.setStock(perfume.getStock() - cantidad);
+        perfumeRepository.save(perfume);
     }
 
 }
