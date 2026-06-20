@@ -43,6 +43,14 @@ public class PerfumeService {
     }
 
     public PerfumeResponseDTO guardarPerfume(PerfumeRequestDTO requestDTO){
+
+        // Validación de Negocio ---
+        if (requestDTO.getPrecio() == null || requestDTO.getPrecio() <= 0) {
+            throw new RuntimeException("Error: El precio del perfume debe ser mayor a cero.");
+        }
+        if (requestDTO.getStock() == null || requestDTO.getStock() < 0) {
+            throw new RuntimeException("Error: El stock inicial no puede ser negativo.");
+        }
         Perfume perfume = new Perfume();
         perfume.setNombre(requestDTO.getNombre());
         perfume.setMarca(requestDTO.getMarca());
@@ -55,13 +63,15 @@ public class PerfumeService {
     }
 
     public void descontarStock(Long perfumeId, Integer cantidad) {
+        // SEGURIDAD ---
+        if (cantidad == null || cantidad <= 0) {
+            throw new RuntimeException("Error: La cantidad a descontar debe ser mayor a cero.");
+        }
         Perfume perfume = perfumeRepository.findById(perfumeId)
                 .orElseThrow(() -> new RuntimeException("Error: El perfume no existe."));
-
         if (perfume.getStock() < cantidad) {
             throw new RuntimeException("Error: Stock insuficiente para " + perfume.getNombre());
         }
-
         perfume.setStock(perfume.getStock() - cantidad);
         perfumeRepository.save(perfume);
     }

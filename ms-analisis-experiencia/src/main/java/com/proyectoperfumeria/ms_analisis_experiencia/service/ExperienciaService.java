@@ -9,7 +9,6 @@ import com.proyectoperfumeria.ms_analisis_experiencia.model.Resena;
 import com.proyectoperfumeria.ms_analisis_experiencia.repository.ResenaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
 public class ExperienciaService {
 
     private final ResenaRepository resenaRepository;
-
     private final UsuarioFeignClient usuarioFeignClient;
     private final CatalogoFeignClient catalogoFeignClient;
 
@@ -36,8 +34,17 @@ public class ExperienciaService {
 
     public ResenaResponseDTO crearResenaDePerfume(ResenaRequestDTO resenaRequestDTO) {
 
+        if (resenaRequestDTO.getCalificacion() == null || resenaRequestDTO.getCalificacion() < 1 || resenaRequestDTO.getCalificacion() > 5) {
+            throw new RuntimeException("Operación rechazada: La calificación debe ser un valor entre 1 y 5.");
+        }
+
         usuarioFeignClient.validarUsuario(resenaRequestDTO.getUsuarioId());
         catalogoFeignClient.validarPerfume(resenaRequestDTO.getPerfumeId());
+
+        // Bloqueo de Spam ---
+        if (resenaRepository.existsByUsuarioIdAndPerfumeId(resenaRequestDTO.getUsuarioId(), resenaRequestDTO.getPerfumeId())) {
+            throw new RuntimeException("Operación rechazada: El usuario ya ha publicado una reseña para este perfume.");
+        }
 
         Resena resena = new Resena();
         resena.setUsuarioId(resenaRequestDTO.getUsuarioId());

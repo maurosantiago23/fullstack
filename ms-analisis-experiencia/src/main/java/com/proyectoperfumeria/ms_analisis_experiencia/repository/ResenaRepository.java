@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResenaRepository extends JpaRepository<Resena, Long> {
+
+    boolean existsByUsuarioIdAndPerfumeId(Long usuarioId, Long perfumeId);
+
 }

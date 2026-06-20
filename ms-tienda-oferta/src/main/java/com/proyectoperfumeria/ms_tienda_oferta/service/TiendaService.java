@@ -55,12 +55,19 @@ public class TiendaService {
                 oferta.getPrecioOferta());
     }
 
-    public OfertaResponseDTO crearOferta (OfertaRequestDTO ofertaRequestDTO) {
+    public OfertaResponseDTO crearOferta(OfertaRequestDTO ofertaRequestDTO) {
 
+        // 1. Validar que el perfume realmente exista en el catálogo
+        catalogoFeignClient.validarPerfume(ofertaRequestDTO.getPerfumeId());
+        // 2. Validar que la tienda exista en la base de datos
+        tiendaRepository.findById(ofertaRequestDTO.getTiendaId())
+                .orElseThrow(() -> new RuntimeException("Operación rechazada: La tienda con ID " + ofertaRequestDTO.getTiendaId() + " no existe."));
+        // Si ambas validaciones pasan, recién ahí guardamos la oferta
         Oferta oferta = new Oferta();
         oferta.setPerfumeId(ofertaRequestDTO.getPerfumeId());
         oferta.setTiendaId(ofertaRequestDTO.getTiendaId());
         oferta.setPrecioOferta(ofertaRequestDTO.getPrecioOferta());
+
         return mapToOfertaDTO(ofertaRepository.save(oferta));
     }
 
@@ -89,6 +96,20 @@ public class TiendaService {
         usuarioFeignClient.validarUsuario(ventaRequestDTO.getUsuarioId());
         catalogoFeignClient.validarPerfume(ventaRequestDTO.getPerfumeId());
 
+        List<Oferta> ofertasActivas = ofertaRepository.findAll();
+        boolean ventaAutorizada = false;
+
+        for (Oferta oferta : ofertasActivas) {
+            if (String.valueOf(oferta.getPerfumeId()).equals(String.valueOf(ventaRequestDTO.getPerfumeId()))) {
+                if (String.valueOf(oferta.getPrecioOferta()).equals(String.valueOf(ventaRequestDTO.getTotal()))) {
+                    ventaAutorizada = true; // Luz verde
+                }
+                break; // Cortamos la búsqueda porque ya encontramos el perfume
+            }
+        }
+        if (!ventaAutorizada) {
+            throw new RuntimeException("Operación rechazada: No existe una oferta activa para este perfume o el monto es inválido.");
+        }
 
         catalogoFeignClient.descontarStock(ventaRequestDTO.getPerfumeId(), 1);
 

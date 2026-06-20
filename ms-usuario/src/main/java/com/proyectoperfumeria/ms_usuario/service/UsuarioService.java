@@ -66,7 +66,7 @@ public class UsuarioService {
         return maptoDTO(usuarioGuardado);
     }
 
-    public UsuarioResponseDTO crearUsuarioAdmin(Usuario dto) {
+    public UsuarioResponseDTO crearUsuarioAdmin(UsuarioRequestDTO dto) {
         if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new RuntimeException("El email que ingresó ya se encuentra registrado");
         }
@@ -74,10 +74,12 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNombreCompleto(dto.getNombreCompleto());
         usuario.setEmail(dto.getEmail());
-        usuario.setPassword(dto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
         usuario.setRol(dto.getRol());
 
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
         return maptoDTO(usuarioGuardado);
     }
 }
+
+// usuario.setPassword(dto.getPassword()); Test no corregido
