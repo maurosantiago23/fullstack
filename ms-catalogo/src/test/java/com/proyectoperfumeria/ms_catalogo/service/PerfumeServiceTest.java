@@ -21,7 +21,7 @@ class PerfumeServiceTest {
     @InjectMocks private PerfumeService perfumeService;
 
     @Test
-    void testBUG_04ManipulacionStockCantidadesNegativas() {
+    void testBUG_004ManipulacionStockCantidadesNegativas() {
         // 1. Preparamos un perfume en la BD simulada con 10 unidades
         Perfume perfumeBase = new Perfume();
         perfumeBase.setId(1L);
@@ -34,7 +34,7 @@ class PerfumeServiceTest {
     }
 
     @Test
-    void testBUG_05CreacionPerfumeValoresInvalidos() {
+    void testBUG_005CreacionPerfumeValoresInvalidos() {
         // 1. DTO malicioso: Atacante intenta crear un producto con precio negativo
         PerfumeRequestDTO peticionInvalida = new PerfumeRequestDTO();
         peticionInvalida.setNombre("Perfume Fraude");
