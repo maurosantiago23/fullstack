@@ -20,7 +20,7 @@ class UsuarioServiceTest {
     @InjectMocks private UsuarioService usuarioService;
 
     @Test
-    void testBUG001_CrearUsuarioAdminUsaEncoder() {
+    void testBUG_001CrearUsuarioAdminUsaEncoder() {
         // Solución del rojo: Ahora usamos el DTO, tal como lo exige tu servicio parchado
         UsuarioRequestDTO dto = new UsuarioRequestDTO();
         dto.setNombreCompleto("Felipe Admin");
