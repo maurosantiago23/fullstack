@@ -23,7 +23,7 @@ class ExperienciaServiceTest {
     @InjectMocks private ExperienciaService experienciaService;
 
     @Test
-    void testBUG_06CalificacionFueraDeRango() {
+    void testBUG_006CalificacionFueraDeRango() {
         // 1. DTO malicioso: Un usuario intenta calificar un perfume con 100 estrellas (el máximo debería ser 5)
         ResenaRequestDTO peticionFalsa = new ResenaRequestDTO();
         peticionFalsa.setUsuarioId(1L);
@@ -38,7 +38,7 @@ class ExperienciaServiceTest {
     }
 
     @Test
-    void testBUG_07SpamResenas_UsuarioSoloPuedeComentarUnaVez() {
+    void testBUG_007SpamResenas_UsuarioSoloPuedeComentarUnaVez() {
         // 1. DTO de un usuario intentando comentar de nuevo
         ResenaRequestDTO peticionDuplicada = new ResenaRequestDTO();
         peticionDuplicada.setUsuarioId(1L);
