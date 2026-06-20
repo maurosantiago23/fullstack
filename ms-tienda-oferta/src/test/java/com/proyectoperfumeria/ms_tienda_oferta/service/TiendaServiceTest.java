@@ -54,7 +54,7 @@ class TiendaServiceTest {
         org.junit.jupiter.api.Assertions.assertThrows(RuntimeException.class, () -> tiendaService.crearOferta(peticionFalsa));
     }
     @Test
-    void testBUG003_EvitarFraudeManipulacionPrecio() {
+    void testBUG_03EvitarFraudeManipulacionPrecio() {
         // 1. DTO fraudulento (Hackerman intenta pagar $100 pesos)
         VentaRequestDTO ventaFraudulenta = new VentaRequestDTO();
         ventaFraudulenta.setUsuarioId(1L);
