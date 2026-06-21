@@ -8,6 +8,10 @@ spring:
 eureka:
   instance:
     hostname: localhost
+#  server:
+    # DESACTIVA EL MODO DE PÁNICO EN LOCAL
+ #   enable-self-preservation: false
+ #   eviction-interval-timer-in-ms: 2000
   client:
     register-with-eureka: false
     fetch-registry: false
