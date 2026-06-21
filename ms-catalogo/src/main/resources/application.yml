@@ -1,39 +1,39 @@
-  server:
-    port: 8082
+server:
+  port: 8082
 
-  spring:
-    application:
-      name: ms-catalogo
-    profiles:
-      active: dev
+spring:
+  application:
+    name: ms-catalogo
+  profiles:
+    active: dev
 
-    autoconfigure:
-      exclude:
-        - org.springdoc.core.configuration.SpringDocHateoasConfiguration
+  autoconfigure:
+    exclude:
+      - org.springdoc.core.configuration.SpringDocHateoasConfiguration
 
-    datasource:
-      url: jdbc:mysql://localhost:3306/db_catalogo?createDatabaseIfNotExist=true&serverTimezone=UTC
-      username: root
-      password: ""
-      driver-class-name: com.mysql.cj.jdbc.Driver
-    jpa:
-      show-sql: true
-      hibernate:
-        ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_catalogo?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 
-    eureka:
-      client:
-        service-url:
-          defaultZone: http://localhost:8761/eureka/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
-  jwt:
-    secret: mi_clave_secreta_muy_larga_para_la_perfumeria_2026
-    expiration: 86400000
+jwt:
+  secret: mi_clave_secreta_muy_larga_para_la_perfumeria_2026
+  expiration: 86400000
 
-  springdoc:
-    api-docs:
-      path: /v3/api-docs
-      enabled: true
-    swagger-ui:
-      path: /swagger-ui.html
-      enabled: true
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
