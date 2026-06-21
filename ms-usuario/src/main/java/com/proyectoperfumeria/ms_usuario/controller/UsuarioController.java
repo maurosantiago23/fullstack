@@ -1,15 +1,16 @@
 package com.proyectoperfumeria.ms_usuario.controller;
 
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import com.proyectoperfumeria.ms_usuario.dto.LoginRequestDTO;
 import com.proyectoperfumeria.ms_usuario.dto.UsuarioRequestDTO;
 import com.proyectoperfumeria.ms_usuario.dto.UsuarioResponseDTO;
-import com.proyectoperfumeria.ms_usuario.model.Usuario;
 import com.proyectoperfumeria.ms_usuario.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,11 +43,14 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.obtenerTodosUsuarios());
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<EntityModel<UsuarioResponseDTO>> buscarPorId(@PathVariable Long id) {
         return usuarioService.obtenerUsuarioPorId(id)
-                .map(ResponseEntity::ok)
+                .map(dto -> {
+                    EntityModel<UsuarioResponseDTO> recurso = EntityModel.of(dto);
+                    recurso.add(linkTo(methodOn(this.getClass()).listar()).withRel("todos-los-usuarios"));
+                    return ResponseEntity.ok(recurso);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 }

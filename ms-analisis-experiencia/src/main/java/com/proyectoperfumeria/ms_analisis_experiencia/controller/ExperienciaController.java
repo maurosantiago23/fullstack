@@ -1,5 +1,8 @@
 package com.proyectoperfumeria.ms_analisis_experiencia.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.hateoas.EntityModel;
 import com.proyectoperfumeria.ms_analisis_experiencia.dto.ResenaRequestDTO;
 import com.proyectoperfumeria.ms_analisis_experiencia.dto.ResenaResponseDTO;
 import com.proyectoperfumeria.ms_analisis_experiencia.service.ExperienciaService;
@@ -26,5 +29,16 @@ public class ExperienciaController {
     @GetMapping("/resenas")
     public ResponseEntity<List<ResenaResponseDTO>> listarResenas() {
         return ResponseEntity.ok(experienciaService.obtenerResenas());
+    }
+
+    @GetMapping("/resenas/{id}")
+    public ResponseEntity<EntityModel<ResenaResponseDTO>> obtenerResenaId(@PathVariable Long id) {
+        return experienciaService.obtenerResenaPorId(id)
+                .map(dto -> {
+                    EntityModel<ResenaResponseDTO> recurso = EntityModel.of(dto);
+                    recurso.add(linkTo(methodOn(this.getClass()).obtenerResenaId(id)).withSelfRel());
+                    return ResponseEntity.ok(recurso);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

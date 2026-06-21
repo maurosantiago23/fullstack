@@ -1,13 +1,15 @@
 package com.proyectoperfumeria.ms_catalogo.controller;
 
-
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import com.proyectoperfumeria.ms_catalogo.dto.PerfumeRequestDTO;
 import com.proyectoperfumeria.ms_catalogo.dto.PerfumeResponseDTO;
 import com.proyectoperfumeria.ms_catalogo.service.PerfumeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,15 @@ public class PerfumeController {
         return ResponseEntity.ok(perfumeService.obtenerTodosLosPerfumes());
     }
 
-    @GetMapping("/{id}" )
-    public ResponseEntity<PerfumeResponseDTO> obtenerPerfumeId(@PathVariable Long id){
-        return perfumeService.obtenerPerfumePorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<EntityModel<PerfumeResponseDTO>> obtenerPerfumeId(@PathVariable Long id){
+        return perfumeService.obtenerPerfumePorId(id)
+                .map(dto -> {
+                    EntityModel<PerfumeResponseDTO> recurso = EntityModel.of(dto);
+                    recurso.add(linkTo(methodOn(this.getClass()).obtenerPerfumeId(id)).withSelfRel());
+                    return ResponseEntity.ok(recurso);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

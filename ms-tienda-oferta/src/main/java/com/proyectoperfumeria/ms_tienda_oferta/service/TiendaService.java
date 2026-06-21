@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -132,6 +133,11 @@ public class TiendaService {
             ventaResponseDTOS.add(mapToVentaDTO(venta));
         }
         return ventaResponseDTOS;
+    }
+
+    public Optional<OfertaResponseDTO> obtenerOfertaPorId(Long id) {
+        return ofertaRepository.findById(id)
+                .map(this::mapToOfertaDTO);
     }
 
 }

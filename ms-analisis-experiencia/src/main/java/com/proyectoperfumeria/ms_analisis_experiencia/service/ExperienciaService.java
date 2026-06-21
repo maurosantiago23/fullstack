@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +65,11 @@ public class ExperienciaService {
             dtos.add(mapToResenaDTO(resena));
         }
         return dtos;
+    }
+
+    public Optional<ResenaResponseDTO> obtenerResenaPorId(Long id) {
+        return resenaRepository.findById(id)
+                .map(this::mapToResenaDTO); // Asegúrate de tener tu método de mapeo
     }
 
 }

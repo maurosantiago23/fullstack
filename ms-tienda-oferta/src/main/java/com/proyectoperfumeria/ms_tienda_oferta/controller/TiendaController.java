@@ -1,5 +1,9 @@
 package com.proyectoperfumeria.ms_tienda_oferta.controller;
 
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.hateoas.EntityModel;
 import com.proyectoperfumeria.ms_tienda_oferta.dto.*;
 import com.proyectoperfumeria.ms_tienda_oferta.service.TiendaService;
 import jakarta.validation.Valid;
@@ -45,6 +49,17 @@ public class TiendaController {
     @GetMapping("/ventas")
     public ResponseEntity<List<VentaResponseDTO>> listarVentas() {
         return ResponseEntity.ok(tiendaService.obtenerVentasPerfume());
+    }
+
+    @GetMapping("/ofertas/{id}")
+    public ResponseEntity<EntityModel<OfertaResponseDTO>> obtenerOfertaId(@PathVariable Long id) {
+        return tiendaService.obtenerOfertaPorId(id)
+                .map(dto -> {
+                    EntityModel<OfertaResponseDTO> recurso = EntityModel.of(dto);
+                    recurso.add(linkTo(methodOn(this.getClass()).obtenerOfertaId(id)).withSelfRel());
+                    return ResponseEntity.ok(recurso);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
