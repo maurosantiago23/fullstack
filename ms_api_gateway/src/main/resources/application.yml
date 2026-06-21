@@ -11,8 +11,8 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: ms-usuarios
-          uri: lb://ms-usuarios
+        - id: ms-usuario
+          uri: lb://ms-usuario
           predicates:
             - Path=/api/v1/usuarios/**, /api/v1/auth/**
 
