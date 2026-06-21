@@ -4,10 +4,13 @@ import com.proyectoperfumeria.ms_analisis_experiencia.model.Resena;
 import com.proyectoperfumeria.ms_analisis_experiencia.repository.ResenaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 public class ResenasDataInitializer implements CommandLineRunner {
 
     private final ResenaRepository resenaRepository;
+    private final Faker faker; // Inyectado automáticamente por Lombok
 
     @Override
     public void run(String... args) throws Exception {
@@ -24,7 +28,7 @@ public class ResenasDataInitializer implements CommandLineRunner {
             return;
         }
 
-        log.info(">>> Cargando 3 reseñas iniciales (una para cada perfume)...");
+        log.info(">>> Cargando 3 reseñas iniciales fijas para la defensa...");
 
         //  Reseña 1: Cliente Prueba (ID 2) evalúa Bleu de Chanel (ID 1)
         Resena resena1 = new Resena();
@@ -53,6 +57,45 @@ public class ResenasDataInitializer implements CommandLineRunner {
         resena3.setFechaPublicacion(LocalDateTime.now().minusDays(1));
         resenaRepository.save(resena3);
 
-        log.info(">>> Carga de 3 reseñas finalizada correctamente.");
+
+        // --- GENERACIÓN MASIVA CON DATAFAKER ---
+        log.info(">>> Generando reseñas masivas de clientes con Datafaker...");
+
+        List<Resena> resenasFalsas = new ArrayList<>();
+
+        // Un buen pool de comentarios realistas para que no se vea repetitivo
+        String[] comentarios = {
+                "Huele increíble, pero no dura tanto en mi piel.",
+                "10/10, siempre me preguntan qué perfume llevo puesto.",
+                "Es un clásico, ideal para regalar en cumpleaños.",
+                "Me llegó rapidísimo el pedido, excelente servicio en tienda.",
+                "Buena relación calidad-precio.",
+                "Aroma muy elegante, lo uso para la oficina.",
+                "No fue de mi total agrado, lo encontré un poco dulce para mi gusto.",
+                "Perfecto, fijación extrema, me dura más de 8 horas."
+        };
+
+        for (int i = 0; i < 30; i++) {
+            Resena r = new Resena();
+
+            // Asumiendo que generamos 22 usuarios y 23 perfumes en los otros MS
+            r.setUsuarioId((long) faker.number().numberBetween(1, 23));
+            r.setPerfumeId((long) faker.number().numberBetween(1, 24));
+
+            // Calificación aleatoria entre 3 y 5 estrellas
+            r.setCalificacion(faker.number().numberBetween(3, 6));
+            r.setComentario(faker.options().option(comentarios));
+
+            // Fechas aleatorias de publicación dentro de los últimos 90 días
+            r.setFechaPublicacion(LocalDateTime.now().minusDays(faker.number().numberBetween(4, 90)));
+
+            resenasFalsas.add(r);
+        }
+
+        // Guardado masivo de las 30 reseñas
+        resenaRepository.saveAll(resenasFalsas);
+
+        log.info(">>> Carga de 3 reseñas manuales y 30 masivas finalizada correctamente.");
+        log.info(">>> ¡ARQUITECTURA DE LA PERFUMERÍA COMPLETAMENTE POBLADA!");
     }
 }
