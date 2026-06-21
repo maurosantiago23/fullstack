@@ -1,0 +1,41 @@
+REGISTRO
+{
+    "nombreCompleto": "Estudiante Viña",
+    "email": "estudiante.vina@duocuc.cl",
+    "password": "password123",
+    "rol": "CLIENTE"
+}
+
+LOGIN
+{
+    "email": "estudiante.vina@duocuc.cl",
+    "password": "password123"
+}
+
+INGRESAR PERFUME
+{
+    "nombre": "CK EVERYONE EDT",
+    "marca": "CALVIN KLEIN",
+    "precio": 59990,
+    "descripcion": "Fragancia limpia, verde, cítrica.",
+    "stock": 10
+}
+
+VENTAS (COMPRAR)
+{
+    "usuarioId": 3,
+    "perfumeId": 4,
+    "total": 59990,
+    "metodoPago": "Tarjeta Crédito"
+}
+
+INGRESAR RESEÑA
+{
+    "usuarioId": 3,
+    "perfumeId": 4,
+    "calificacion": 10,
+    "comentario": "Flujo de prueba exitoso. Cuenta creada, login exitoso, perfume creado con éxito, stock descontado con éxito y reseña publicada con exito. Validaciones exitosas."
+}
+
+
+
