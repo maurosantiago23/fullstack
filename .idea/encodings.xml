@@ -5,5 +5,7 @@
     <file url="file://$PROJECT_DIR$/ms-catalogo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ms-tienda-oferta/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ms-usuario/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms_api_gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms_eureka_server/src/main/java" charset="UTF-8" />
   </component>
 </project>

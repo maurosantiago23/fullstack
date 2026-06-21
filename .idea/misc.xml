@@ -9,6 +9,8 @@
         <option value="$PROJECT_DIR$/ms-catalogo/pom.xml" />
         <option value="$PROJECT_DIR$/ms-tienda-oferta/pom.xml" />
         <option value="$PROJECT_DIR$/ms-analisis-experiencia/pom.xml" />
+        <option value="$PROJECT_DIR$/ms_eureka_server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms_api_gateway/pom.xml" />
       </list>
     </option>
   </component>

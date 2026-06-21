@@ -7,6 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ms_api_gateway" />
+        <module name="ms_eureka_server" />
       </profile>
       <profile name="Annotation profile for ms-usuario" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -28,6 +30,8 @@
       <module name="ms-catalogo" options="-parameters" />
       <module name="ms-tienda-oferta" options="-parameters" />
       <module name="ms-usuario" options="-parameters" />
+      <module name="ms_api_gateway" options="-parameters" />
+      <module name="ms_eureka_server" options="-parameters" />
     </option>
   </component>
 </project>
