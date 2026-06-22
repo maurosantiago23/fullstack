@@ -1,0 +1,152 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: perfumeria-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_identidad
+    ports:
+      - "3307:3306"
+    volumes:
+      - perfumeria_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - perfumeria-network
+
+  ms-eureka-server:
+    build:
+      context: ./ms_eureka_server
+    container_name: ms-eureka-server
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    environment:
+      SERVER_PORT: 8761
+      EUREKA_INSTANCE_HOSTNAME: ms-eureka-server
+    networks:
+      - perfumeria-network
+
+  ms-usuario:
+    build:
+      context: ./ms-usuario
+    container_name: ms-usuario
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_identidad?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ms-usuario
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ms-eureka-server:
+        condition: service_started
+    networks:
+      - perfumeria-network
+
+  ms-catalogo:
+    build:
+      context: ./ms-catalogo
+    container_name: ms-catalogo
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SERVER_PORT: 8082
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_catalogo?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ms-catalogo
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ms-eureka-server:
+        condition: service_started
+    networks:
+      - perfumeria-network
+
+  ms-tienda-oferta:
+    build:
+      context: ./ms-tienda-oferta
+    container_name: ms-tienda-oferta
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SERVER_PORT: 8083
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_tienda?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ms-tienda-oferta
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ms-eureka-server:
+        condition: service_started
+    networks:
+      - perfumeria-network
+
+  ms-analisis-experiencia:
+    build:
+      context: ./ms-analisis-experiencia
+    container_name: ms-analisis-experiencia
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8084
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_experiencia?createDatabaseIfNotExist=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ms-analisis-experiencia
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ms-eureka-server:
+        condition: service_started
+    networks:
+      - perfumeria-network
+
+  ms-api-gateway:
+    build:
+      context: ./ms_api_gateway
+    container_name: ms-api-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SERVER_PORT: 8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: ms-api-gateway
+    depends_on:
+      ms-eureka-server:
+        condition: service_started
+      ms-usuario:
+        condition: service_started
+      ms-catalogo:
+        condition: service_started
+      ms-tienda-oferta:
+        condition: service_started
+      ms-analisis-experiencia:
+        condition: service_started
+    networks:
+      - perfumeria-network
+
+volumes:
+  perfumeria_mysql_data:
+
+networks:
+  perfumeria-network:
+    driver: bridge
