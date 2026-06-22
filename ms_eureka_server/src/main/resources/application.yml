@@ -1,5 +1,5 @@
 server:
-  port: 8761
+  port: ${SERVER_PORT:8761}
 
 spring:
   application:
@@ -7,7 +7,7 @@ spring:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
 #  server:
     # DESACTIVA EL MODO DE PÁNICO EN LOCAL
  #   enable-self-preservation: false
