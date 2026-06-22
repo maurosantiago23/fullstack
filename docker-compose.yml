@@ -89,6 +89,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
       EUREKA_INSTANCE_HOSTNAME: ms-tienda-oferta
+      CLIENTS_MS_USUARIO_URL: http://ms-usuario:8081
+      CLIENTS_MS_CATALOGO_URL: http://ms-catalogo:8082
     depends_on:
       mysql:
         condition: service_healthy
@@ -111,6 +113,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://ms-eureka-server:8761/eureka/
       EUREKA_INSTANCE_HOSTNAME: ms-analisis-experiencia
+      CLIENTS_MS_USUARIO_URL: http://ms-usuario:8081
+      CLIENTS_MS_CATALOGO_URL: http://ms-catalogo:8082
     depends_on:
       mysql:
         condition: service_healthy
